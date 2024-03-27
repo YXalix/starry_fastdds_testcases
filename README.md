@@ -108,3 +108,9 @@ export LD_LIBRARY_PATH=/lib:$LD_LIBRARY_PATH
 ## 项目实习任务
 
 使用最新的[starry代码](https://github.com/Arceos-monolithic/Starry.git), 成功运行Fast-DDS的测试用例`LatencyTest`
+
+## 系统调用分析
+
+[Linux64系统调用分析](./Linux64-syscall.md)
+
+[ArceOS系统调用分析](./ArceOS-syscall.md)
