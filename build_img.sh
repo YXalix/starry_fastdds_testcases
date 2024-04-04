@@ -30,8 +30,10 @@ sudo qemu-system-riscv64 -nographic -m 2G -smp 1 \
     -machine virt -bios default -kernel ./Image \
      -append "root=/dev/vda rw console=ttyS0 init=/bin/busybox sh" \
      -device virtio-blk-device,drive=disk0 -drive id=disk0,if=none,format=raw,file=disk.img \
-     -device virtio-net-device,netdev=net0 -netdev user,id=net0,hostfwd=tcp::5555-:5555,hostfwd=udp::5555-:5555 \
-     -netdev socket,id=vlan,mcast=230.0.0.1:1234 -device virtio-net-pci,netdev=vlan
+     -nographic
+     # -device virtio-net-device,netdev=net0 -netdev user,id=net0,hostfwd=tcp::5555-:5555,hostfwd=udp::5555-:5555 -nographic
+     # -device virtio-net-device,netdev=net0 -netdev user,id=net0,hostfwd=tcp::5555-:5555,hostfwd=udp::5555-:5555 \
+     # -netdev socket,id=vlan,mcast=230.0.0.1:1234 -device virtio-net-pci,netdev=vlan
 # -drive file=disk.img,format=raw,id=hd0 \
 
 

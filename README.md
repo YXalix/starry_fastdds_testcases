@@ -117,4 +117,6 @@ export LD_LIBRARY_PATH=/lib:$LD_LIBRARY_PATH
 
 ## 相关测例程序
 
+[netlink输出测试程序](./netlink.c), 对应的riscv64的可执行程序在`_install/bin/netlink`
+
 [udp multicast](./multicast_test.c)
