@@ -1,6 +1,6 @@
 #include "testcases-helper.h"
 
-void create_eventfd() {
+void testcase_create_eventfd() {
     char* name = "create eventfd";
     int efd = eventfd(42, 0);
     if (efd == -1) {

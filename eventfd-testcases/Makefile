@@ -16,3 +16,6 @@ $(OBJS):%.o: %.c
 
 clean:
 	$(RM) $(OBJS) $(TARGET)
+
+run: $(TARGET)
+	./$(TARGET)

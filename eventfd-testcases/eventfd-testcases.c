@@ -1,5 +1,5 @@
 #include "eventfd-testcases.h"
 
 int main() {
-    create_eventfd();
+    testcase_create_eventfd();
 }
