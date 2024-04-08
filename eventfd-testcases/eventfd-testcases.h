@@ -175,7 +175,7 @@ int testcase_block_write()
 
     switch (fork())
     {
-    case 0:
+    case 0:                                 // child
         write_efd(efd, 0xfffffffffffffffe); // should block
         pass(efd, name);
         exit(EXIT_SUCCESS);
@@ -184,6 +184,40 @@ int testcase_block_write()
         read_efd(efd, &counter); // unblock the write
         close(efd);
         return 0;
+    }
+
+    return fail(efd, name);
+}
+
+int testcase_select_read_eventfd()
+{
+    char *name = "select read eventfd";
+    int efd = eventfd(0, 0);
+    int value_to_write = 42;
+    uint64_t counter;
+    fd_set rfds;
+    FD_ZERO(&rfds);
+    FD_SET(efd, &rfds);
+
+    switch (fork())
+    {
+    case 0:                             // child
+        write_efd(efd, value_to_write); // unblock select
+        exit(EXIT_SUCCESS);
+    }
+
+    int retval = select(efd + 1, &rfds, NULL, NULL, NULL);
+    if (retval > 0)
+    {
+        read_efd(efd, &counter);
+        if (counter != value_to_write)
+        {
+            return fail(efd, name);
+        }
+        else
+        {
+            return pass(efd, name);
+        }
     }
 
     return fail(efd, name);

@@ -15,4 +15,6 @@ int main()
 
     testcase_block_read();
     testcase_block_write();
+
+    testcase_select_read_eventfd();
 }

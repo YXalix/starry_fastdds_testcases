@@ -3,10 +3,11 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-#include <sys/eventfd.h>
 #include <pthread.h>
 #include <unistd.h>
 #include <errno.h>
+#include <sys/eventfd.h>
+#include <sys/select.h>
 
 // print test pass result and close eventfd
 int pass(int efd, char *name)
