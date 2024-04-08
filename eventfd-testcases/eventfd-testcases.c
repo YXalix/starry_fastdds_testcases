@@ -10,8 +10,9 @@ int main()
 
     testcase_write_with_efd_nonblock_set();
     testcase_write_multiple_values_with_efd_nonblock_set();
-    testcase_write_max_value_with_efd_nonblock_set();
-    testcase_write_max_value_plus_one_with_efd_nonblock_set();
+    testcase_write_u64_max_value();
+    testcase_write_allowed_max_value_with_efd_nonblock_set();
+    testcase_write_allowed_max_value_plus_one_with_efd_nonblock_set();
 
     testcase_block_read();
     testcase_block_write();

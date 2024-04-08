@@ -113,9 +113,23 @@ int testcase_write_multiple_values_with_efd_nonblock_set()
     return pass(efd, name);
 }
 
-int testcase_write_max_value_with_efd_nonblock_set()
+int testcase_write_u64_max_value()
 {
-    char *name = "write max value with EFD_NONBLOCK set";
+    char *name = "write max u64 value(0xffffffffffffffff)";
+    int efd = eventfd(1, 0);
+    int n = write_efd(efd, 0xffffffffffffffff);
+    if (errno != EINVAL)
+    {
+        return fail(efd, name);
+    }
+
+    errno = 0;
+    return pass(efd, name);
+}
+
+int testcase_write_allowed_max_value_with_efd_nonblock_set()
+{
+    char *name = "write allowed max(0xfffffffffffffffe) value with EFD_NONBLOCK set";
     int efd = eventfd(0, EFD_NONBLOCK);
     int n = write_efd(efd, 0xfffffffffffffffe);
 
@@ -129,9 +143,9 @@ int testcase_write_max_value_with_efd_nonblock_set()
     return pass(efd, name);
 }
 
-int testcase_write_max_value_plus_one_with_efd_nonblock_set()
+int testcase_write_allowed_max_value_plus_one_with_efd_nonblock_set()
 {
-    char *name = "write max value plus one with EFD_NONBLOCK set";
+    char *name = "write allowed max value(0xfffffffffffffffe) plus one with EFD_NONBLOCK set";
     int efd = eventfd(1, EFD_NONBLOCK);
     int n = write_efd(efd, 0xfffffffffffffffe);
     if (errno != EAGAIN)
@@ -139,6 +153,7 @@ int testcase_write_max_value_plus_one_with_efd_nonblock_set()
         return fail(efd, name);
     }
 
+    errno = 0;
     return pass(efd, name);
 }
 

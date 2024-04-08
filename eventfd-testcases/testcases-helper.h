@@ -38,6 +38,7 @@ int read_efd(int efd, uint64_t *value)
     return read(efd, value, sizeof(uint64_t));
 }
 
+// a simple wrapper on write
 int write_efd(int efd, uint64_t value)
 {
     return write(efd, &value, sizeof(uint64_t));
