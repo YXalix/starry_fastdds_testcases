@@ -145,4 +145,48 @@ int testcase_write_max_value_plus_one_with_efd_nonblock_set()
     return pass(efd, name);
 }
 
+int testcase_block_read()
+{
+    char *name = "block read: read zero (with EFD_NONBLOCK not set)";
+    int efd = eventfd(0, EFD_NONBLOCK ^ EFD_NONBLOCK);
+    uint64_t counter;
+
+    switch (fork())
+    {
+    case 0:                      // child
+        read_efd(efd, &counter); // should block
+        pass(efd, name);
+        exit(EXIT_SUCCESS);
+    default: // parent
+        sleep(1);
+        write_efd(efd, 1); // unblock the read
+        close(efd);
+        return 0;
+    }
+
+    return fail(efd, name);
+}
+
+int testcase_block_write()
+{
+    char *name = "block write: write 1 to max value (with EFD_NONBLOCK not set)";
+    int efd = eventfd(1, EFD_NONBLOCK ^ EFD_NONBLOCK);
+    uint64_t counter;
+
+    switch (fork())
+    {
+    case 0:
+        write_efd(efd, 0xfffffffffffffffe); // should block
+        pass(efd, name);
+        exit(EXIT_SUCCESS);
+    default:
+        sleep(1);
+        read_efd(efd, &counter); // unblock the write
+        close(efd);
+        return 0;
+    }
+
+    return fail(efd, name);
+}
+
 #endif /* EVENTFD_TESTCASES */
