@@ -134,9 +134,6 @@ int testcase_write_max_value_plus_one_with_efd_nonblock_set()
     char *name = "write max value plus one with EFD_NONBLOCK set";
     int efd = eventfd(1, EFD_NONBLOCK);
     int n = write_efd(efd, 0xfffffffffffffffe);
-
-    uint64_t counter;
-    read_efd(efd, &counter);
     if (errno != EAGAIN)
     {
         return fail(efd, name);
