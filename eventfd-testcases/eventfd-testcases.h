@@ -75,4 +75,74 @@ int testcase_read_with_efd_nonblock_set()
     return pass(efd, name);
 }
 
+int testcase_write_with_efd_nonblock_set()
+{
+    char *name = "write with EFD_NONBLOCK set";
+    int efd = eventfd(0, EFD_NONBLOCK);
+    int n = write_efd(efd, 42);
+    if (n != 8)
+    {
+        return fail(efd, name);
+    }
+
+    uint64_t counter;
+    read_efd(efd, &counter);
+    if (counter != 42)
+    {
+        return fail(efd, name);
+    }
+
+    return pass(efd, name);
+}
+
+int testcase_write_multiple_values_with_efd_nonblock_set()
+{
+    char *name = "write multiple values with EFD_NONBLOCK set";
+    int efd = eventfd(0, EFD_NONBLOCK);
+    write_efd(efd, 1);
+    write_efd(efd, 2);
+    write_efd(efd, 3);
+
+    uint64_t counter;
+    read_efd(efd, &counter);
+    if (counter != 6)
+    {
+        return fail(efd, name);
+    }
+
+    return pass(efd, name);
+}
+
+int testcase_write_max_value_with_efd_nonblock_set()
+{
+    char *name = "write max value with EFD_NONBLOCK set";
+    int efd = eventfd(0, EFD_NONBLOCK);
+    int n = write_efd(efd, 0xfffffffffffffffe);
+
+    uint64_t counter;
+    read_efd(efd, &counter);
+    if (counter != 0xfffffffffffffffe)
+    {
+        return fail(efd, name);
+    }
+
+    return pass(efd, name);
+}
+
+int testcase_write_max_value_plus_one_with_efd_nonblock_set()
+{
+    char *name = "write max value plus one with EFD_NONBLOCK set";
+    int efd = eventfd(1, EFD_NONBLOCK);
+    int n = write_efd(efd, 0xfffffffffffffffe);
+
+    uint64_t counter;
+    read_efd(efd, &counter);
+    if (errno != EAGAIN)
+    {
+        return fail(efd, name);
+    }
+
+    return pass(efd, name);
+}
+
 #endif /* EVENTFD_TESTCASES */
