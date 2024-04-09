@@ -18,4 +18,8 @@ int main()
     testcase_block_write();
 
     testcase_select_read_eventfd();
+
+    testcase_check_o_rdwr_status();
+    testcase_check_o_nonblock_status();
+    testcase_check_o_cloexec_status();
 }

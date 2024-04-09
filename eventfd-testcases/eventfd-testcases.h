@@ -235,4 +235,50 @@ int testcase_select_read_eventfd()
     return fail(efd, name);
 }
 
+int testcase_check_o_rdwr_status() {
+    char *name = "check status O_RDWR";
+    int efd = eventfd(0, 0);
+    if (fcntl(efd, F_GETFD, O_RDWR) < 0) {
+        return fail(efd, name);
+    }
+
+    pass(efd, name);
+}
+
+int testcase_check_o_nonblock_status() {
+    char *name = "check status NONBLOCK";
+
+    int efd = eventfd(0, 0);
+    if (fcntl(efd, F_GETFD, O_NONBLOCK) > 0) {
+        return fail(efd, name);
+    }
+    close(efd);
+
+    efd = eventfd(0, EFD_NONBLOCK);
+    if (fcntl(efd, F_GETFD, O_NONBLOCK) < 0) {
+        return fail(efd, name);
+    }
+
+    pass(efd, name);
+}
+
+int testcase_check_o_cloexec_status() {
+    char *name = "check status O_CLOEXEC";
+
+    int efd = eventfd(0, 0);
+    // use __O_CLOEXEC in Linux
+    if (fcntl(efd, F_GETFD, O_CLOEXEC) > 0) {
+        return fail(efd, name);
+    }
+    close(efd);
+
+    efd = eventfd(0, EFD_CLOEXEC);
+    // use __O_CLOEXEC in Linux
+    if (fcntl(efd, F_GETFD, O_CLOEXEC) < 0) {
+        return fail(efd, name);
+    }
+
+    pass(efd, name);
+}
+
 #endif /* EVENTFD_TESTCASES */
