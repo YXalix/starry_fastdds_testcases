@@ -1,4 +1,5 @@
-G_CROSS_NAME=/home/xunlian003/riscv64-linux-musl-cross/bin/riscv64-linux-musl # change to your own path of musl
+CPU_ARCH=riscv64 # x86_64
+G_CROSS_NAME=/home/xunlian003/${CPU_ARCH}-linux-musl-cross/bin/${CPU_ARCH}-linux-musl # change to your own path of musl
 
 VAR_CROSS_COMPILE=${G_CROSS_NAME}-
 
@@ -16,7 +17,7 @@ OBJDUMP=${VAR_CROSS_COMPILE}objdump
 
 export CC CXX LD AS AR NM STRIP OBJCOPY OBJDUMP
 
-CROSS_FLAG="ARCH=riscv CROSS_COMPILE=${VAR_CROSS_COMPILE}"
+CROSS_FLAG="ARCH=${CPU_ARCH} CROSS_COMPILE=${VAR_CROSS_COMPILE}"
 MAKE="make ${CROSS_FLAG}"
 
 ${MAKE}
